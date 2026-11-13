@@ -34,13 +34,13 @@ ObjC.import("Foundation");
 $JS_CORE
 function run(argv) {
   var path = argv[0], repo = argv[1];
-  var fm = $.NSFileManager.defaultManager;
+  var fm = \$.NSFileManager.defaultManager;
   var text = "";
   if (fm.fileExistsAtPath(path)) {
-    text = ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError(path, $.NSUTF8StringEncoding, null)) || "";
+    text = ObjC.unwrap(\$.NSString.stringWithContentsOfFileEncodingError(path, \$.NSUTF8StringEncoding, null)) || "";
   }
   var out = patch(text, repo);
-  $(out).writeToFileAtomicallyEncodingError(path, true, $.NSUTF8StringEncoding, null);
+  \$(out).writeToFileAtomicallyEncodingError(path, true, \$.NSUTF8StringEncoding, null);
   return "ok";
 }
 EOF
