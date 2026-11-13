@@ -1,91 +1,91 @@
-# code-skills-test — стандарти коду для Claude Code
+# code-skills-test: code standards for Claude Code
 
-Плагін робить так, що Claude у вкладці **Code** завжди пише код за правилами: стиль проєкту, безпека, доступність, перевірки після змін.
+A plugin that makes Claude in the **Code** tab always write code by the rules: project style, security, accessibility, and checks after changes.
 
-| Що | Як працює | Як викликати |
+| What | How it works | How to use |
 |---|---|---|
-| Постійний режим якості | При кожному старті сесії хук `SessionStart` підкладає Claude правила з `plugins/code-skills-test/rules/core.md`: правила репозиторію (ESLint/Prettier/Pint/ruff тощо) → найменша повна зміна → безпека (OWASP) → доступність (WCAG 2.2 AA) → лінтер і тести після змін | Нічого — діє завжди |
-| `review` | Рев'ю поточних змін: помилки, безпека, доступність, стиль проєкту, тести, швидкість, зайвий код. Звіт простою мовою, «треба / варто / дрібниці», з нумерацією. Код не змінює | «Перевір мої зміни», `/code-skills-test:review` |
-| `publish-changes` | Лінтер, тести, рев'ю → виправлення «треба» → зберегти локально, push або pull request із самостійним злиттям після зелених перевірок | «Готово, опублікуй» |
+| Always-on quality mode | On every session start the `SessionStart` hook gives Claude the rules from `plugins/code-skills-test/rules/core.md`: repo rules (ESLint/Prettier/Pint/ruff, etc.) → smallest complete change → security (OWASP) → accessibility (WCAG 2.2 AA) → linter and tests after changes | Nothing, it is always on |
+| `review` | Reviews the current changes: bugs, security, accessibility, project style, tests, performance, unneeded code. Plain-language report, "must fix / should fix / minor", numbered. Does not change code | "Check my changes", `/code-skills-test:review` |
+| `publish-changes` | Linter, tests, review → fix the "must fix" items → save locally, push, or open a pull request that merges itself after green checks | "Done, publish it" |
 
-Щоб змінити правила для всіх — редагуйте `rules/core.md` (короткі правила, які діють завжди) і `skills/review/references/*.md` (детальні правила й чекліст), потім push.
+To change the rules for everyone, edit `rules/core.md` (short rules that always apply) and `skills/review/references/*.md` (detailed rules and checklist), then push.
 
-Запобіжники: нічого не публікує без зелених перевірок і явного «так», не робить `--force`, не додає секрети в код; зміни в оплаті, авторизації, персональних даних — лише через pull request з окремим підтвердженням.
+Safeguards: nothing is published without green checks and an explicit "yes"; no `--force`; no secrets in code. Changes to payments, authorization, or personal data go only through a pull request with separate confirmation.
 
 ---
 
-## Як це працює
+## How it works
 
-Скіли лежать у GitHub-репозиторії. Колега **один раз** підключає його, і далі кожен ваш `git push` у гілку `main` сам доїжджає до всіх: Claude Code перевіряє оновлення у фоні при старті сесії і підтягує нову версію (вона застосовується з наступної сесії або після `/reload-plugins`).
+The skills live in a GitHub repository. A colleague connects it **once**, and from then on every `git push` to `main` reaches everyone: Claude Code checks for updates in the background at session start and pulls the new version (it applies from the next session or after `/reload-plugins`).
 
-Номер версії піднімати **не треба**: у `plugin.json` навмисно немає поля `version`, тому версією вважається хеш коміту, і кожен коміт — це нове оновлення.
+You do **not** need to bump a version number: `plugin.json` deliberately has no `version` field, so the commit hash is the version and every commit is a new update.
 
-> ⚠️ Репозиторій має бути **публічним** або в кожного колеги має бути налаштований доступ до GitHub на комп'ютері. Для нетехнічних людей простіше публічний: тут лише інструкції, нічого секретного.
+> ⚠️ The repository must be **public**, or each colleague must have GitHub access set up on their computer. A public repo is simpler for non-technical people: it only holds instructions, nothing secret.
 
-## Підключення в апці (один раз на людину)
+## Install in the app (once per person)
 
-Вкладка **Code** → у полі повідомлення:
+**Code** tab → in the message box:
 
 ```
 /plugin marketplace add YuraKolyada/code-skills-test-marketplace
 /plugin install code-skills-test@lineup-tools
 ```
 
-Вибрати **Install for you**.
+Choose **Install for you**.
 
-**Увімкнути автооновлення (обов'язково, інакше ваші зміни не доїдуть):**
-`/plugin` → вкладка **Marketplaces** → `lineup-tools` → **Enable auto-update**.
+**Turn on auto-update (required, otherwise your changes will not arrive):**
+`/plugin` → **Marketplaces** tab → `lineup-tools` → **Enable auto-update**.
 
-## Не бачу плагіна
+## I don't see the plugin
 
-1. Апку треба закрити повністю (**Cmd+Q**, а не лише вікно) і відкрити знову.
-2. У вкладці **Code** виконати `/plugin` і перевірити, що `code-skills-test` є серед встановлених.
-3. Перевірка, що він працює: написати «перевір мої зміни».
+1. Quit the app completely (**Cmd+Q**, not just the window) and reopen it.
+2. In the **Code** tab run `/plugin` and check that `code-skills-test` is installed.
+3. To check that it works, write "check my changes".
 
-Плагін ставиться локально, у Claude Code на цьому комп'ютері. У веб-версії claude.ai і в хмарних сесіях його не буде.
+The plugin is installed locally, in Claude Code on this computer. It will not appear on claude.ai or in cloud sessions.
 
-## Альтернатива: скрипт (автооновлення вмикається одразу)
+## Alternative: script (auto-update is on right away)
 
-Відкрийте вкладку **Code** в апці Claude, вставте **один рядок** і надішліть:
+Open the **Code** tab in the Claude app, paste **one line**, and send it:
 
 **macOS:**
 ```
-Виконай: curl -fsSL https://raw.githubusercontent.com/YuraKolyada/code-skills-test-marketplace/main/install.sh | bash
+Run: curl -fsSL https://raw.githubusercontent.com/YuraKolyada/code-skills-test-marketplace/main/install.sh | bash
 ```
 
 **Windows:**
 ```
-Виконай у PowerShell: irm https://raw.githubusercontent.com/YuraKolyada/code-skills-test-marketplace/main/install.ps1 | iex
+Run in PowerShell: irm https://raw.githubusercontent.com/YuraKolyada/code-skills-test-marketplace/main/install.ps1 | iex
 ```
 
-Claude попросить дозвіл: натисніть **Allow**. Потім повністю закрийте й відкрийте апку. Готово.
+Claude will ask for permission: click **Allow**. Then quit and reopen the app completely. Done.
 
-(Ту саму команду без «Виконай:» можна вставити й у звичайний Термінал / PowerShell.)
+(You can paste the same command without "Run:" into a regular Terminal / PowerShell.)
 
-Скрипт дописує в `~/.claude/settings.json` два рядки (репозиторій з автооновленням + увімкнений плагін). Решту налаштувань він не чіпає й перед зміною робить резервну копію. Після перезапуску Claude Code сам завантажить і встановить плагін.
+The script adds two entries to `~/.claude/settings.json` (the repository with auto-update, and the enabled plugin). It does not touch the other settings and makes a backup before changing anything. If the `claude` CLI is installed, it also installs the plugin. Otherwise it prints the `/plugin install` command to run in the Code tab.
 
-## Альтернатива: попросити Claude дописати налаштування
+## Alternative: ask Claude to edit the settings
 
-Десктопна апка вже містить Claude Code і читає ті самі налаштування, що й термінальна версія (`~/.claude/settings.json`). Окремо ставити CLI **не треба**: достатньо дописати в цей файл кілька рядків.
+The desktop app already includes Claude Code and reads the same settings as the terminal version (`~/.claude/settings.json`). You do **not** need to install the CLI separately: it is enough to add a few lines to that file.
 
-Вкладка **Code** → відкрити будь-яку папку → вставити й надіслати:
+**Code** tab → open any folder → paste and send:
 
 ```
-Відкрий мій файл ~/.claude/settings.json (якщо його немає — створи) і, НЕ видаляючи того, що там уже є, додай:
-- в "extraKnownMarketplaces": "lineup-tools": { "source": { "source": "github", "repo": "YuraKolyada/code-skills-test-marketplace" }, "autoUpdate": true }
-- в "enabledPlugins": "code-skills-test@lineup-tools": true
-Перевір, що JSON валідний. Нічого більше не змінюй. Потім скажи мені перезапустити апку.
+Open my ~/.claude/settings.json file (create it if it does not exist) and, WITHOUT removing what is already there, add:
+- to "extraKnownMarketplaces": "lineup-tools": { "source": { "source": "github", "repo": "YuraKolyada/code-skills-test-marketplace" }, "autoUpdate": true }
+- to "enabledPlugins": "code-skills-test@lineup-tools": true
+Check that the JSON is valid. Change nothing else. Then tell me to restart the app.
 ```
 
-Дозволити зміну файлу → перезапустити апку. При старті Claude Code сам завантажить репозиторій і встановить плагін.
+Allow the file change → restart the app. On start, Claude Code downloads the repository and installs the plugin.
 
-Перевірка: **+ → Plugins → Manage plugins** — там є `code-skills-test`. Або напишіть «перевір мої зміни».
+To check: **+ → Plugins → Manage plugins** lists `code-skills-test`. Or write "check my changes".
 
-> На Mac без встановленого git (буває на «чистих» ноутбуках) завантаження може не спрацювати — macOS запропонує встановити Command Line Tools, треба погодитись.
+> On a Mac without git installed (common on fresh laptops) the download may fail: macOS will offer to install the Command Line Tools, and you need to accept.
 
-### Якщо є Owner організації (Team / Enterprise) — колегам взагалі нічого не робити
+### If you are an organization Owner (Team / Enterprise): colleagues need to do nothing
 
-**Organization settings → Claude Code → Managed settings** — вставити:
+**Organization settings → Claude Code → Managed settings**, paste:
 
 ```json
 {
@@ -101,24 +101,24 @@ Claude попросить дозвіл: натисніть **Allow**. Потім
 }
 ```
 
-Плагін сам встановиться й оновлюватиметься на всіх комп'ютерах організації.
+The plugin installs and updates itself on all of the organization's computers.
 
-## Як випустити оновлення
+## How to ship an update
 
-1. Змініть файли в `plugins/code-skills-test/skills/…` (або додайте нову папку зі `SKILL.md`).
-2. `git commit` → `git push` у `main`.
-3. Усе. Колеги отримають зміни при наступному запуску апки (нова версія завантажується у фоні й підхоплюється з наступної сесії). Вручну: **+ → Plugins → Manage plugins** → `code-skills-test` → оновити.
+1. Change the files in `plugins/code-skills-test/skills/…` (or add a new folder with a `SKILL.md`).
+2. `git commit` → `git push` to `main`.
+3. That's it. Colleagues get the changes the next time they start the app (the new version downloads in the background and is picked up from the next session). Manually: **+ → Plugins → Manage plugins** → `code-skills-test` → update.
 
-Перевірити локально перед push: `claude plugin validate .`
+Check locally before pushing: `claude plugin validate .`
 
 ---
 
-## Структура
+## Structure
 
 ```
-.claude-plugin/marketplace.json      ← каталог (для GitHub-варіантів)
+.claude-plugin/marketplace.json      ← catalog (for the GitHub options)
 plugins/code-skills-test/
   .claude-plugin/plugin.json
-  skills/<назва>/SKILL.md            ← скіли review і publish-changes
-  rules/core.md                      ← правила, що діють завжди (хук SessionStart)
+  skills/<name>/SKILL.md             ← the review and publish-changes skills
+  rules/core.md                      ← always-on rules (SessionStart hook)
 ```
