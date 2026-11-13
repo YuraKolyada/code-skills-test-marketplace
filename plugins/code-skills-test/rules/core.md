@@ -29,6 +29,7 @@ You write and change code for people who cannot judge code quality, and no devel
 - Naming: booleans (variables and props) start with `is`, `has` or `with` (`isPending`, `hasError`), never a bare verb (`showModal`, `hideButton`). Variables that hold a value do not start with a verb (`stepReturnType`, not `returnToStepType`) — a leading verb reads as an action. Names match what the code does now: when you rename or generalise a feature, rename its variables, constants and functions too.
 - Async: `async`/`await` with `try`/`catch`, not `.then()`/`.catch()` chains.
 - Consequential actions in the UI: an action whose effect is not obvious from its label, or that cannot be undone, gets a confirmation that spells out the consequence — what changes, who is affected, what stays the same. When the result is something the user must pass on (a new link or code), show it right away, ready to copy or share.
+- Anything that loads data shows all four states: loading, empty, error (in plain words, with a way to retry) and success. Never leave a blank screen or a spinner that can run forever. Leave no `console.log`, `debugger`, commented-out code or stray TODOs in the change.
 - Performance on pages: images with width/height and modern formats, `loading="lazy"` below the fold, no heavy library for small things.
 - New risky logic (a branch, a parser, money, auth, data writes, a bug fix) gets one small test, if the project has tests.
 
