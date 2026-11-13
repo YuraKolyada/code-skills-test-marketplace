@@ -1,0 +1,13 @@
+{
+  "name": "code-skills-test",
+  "description": "Стандарти коду для Claude Code: стиль за правилами проєкту, безпека, доступність; рев'ю змін і безпечна публікація.",
+  "author": {
+    "name": "YuraKolyada"
+  },
+  "keywords": [
+    "code-quality",
+    "security",
+    "accessibility",
+    "review"
+  ]
+}

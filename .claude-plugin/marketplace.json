@@ -1,0 +1,14 @@
+{
+  "name": "lineup-tools",
+  "description": "Плагіни для Claude Code",
+  "owner": {
+    "name": "YuraKolyada"
+  },
+  "plugins": [
+    {
+      "name": "code-skills-test",
+      "source": "./plugins/code-skills-test",
+      "description": "Стандарти коду для Claude Code: стиль за правилами проєкту, безпека, доступність; рев'ю змін і безпечна публікація."
+    }
+  ]
+}
