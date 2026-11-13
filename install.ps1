@@ -36,7 +36,7 @@ if (Get-Command claude -ErrorAction SilentlyContinue) {
     claude plugin install code-skills-test@lineup-tools
 } else {
     Write-Host "Не знайдено claude CLI. У вкладці Code виконайте:"
-    Write-Host "/plugin install code-skills-test --marketplace $repo"
+    Write-Host "/plugin install code-skills-test@lineup-tools"
 }
 
 Write-Host ''

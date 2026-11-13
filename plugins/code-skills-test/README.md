@@ -27,13 +27,22 @@
 Вкладка **Code** → у полі повідомлення:
 
 ```
-/plugin install code-skills-test --marketplace YuraKolyada/code-skills-test-marketplace
+/plugin marketplace add YuraKolyada/code-skills-test-marketplace
+/plugin install code-skills-test@lineup-tools
 ```
 
-Підтвердити додавання → вибрати **Install for you**.
+Вибрати **Install for you**.
 
 **Увімкнути автооновлення (обов'язково, інакше ваші зміни не доїдуть):**
 `/plugin` → вкладка **Marketplaces** → `lineup-tools` → **Enable auto-update**.
+
+## Не бачу плагіна
+
+1. Апку треба закрити повністю (**Cmd+Q**, а не лише вікно) і відкрити знову.
+2. У вкладці **Code** виконати `/plugin` і перевірити, що `code-skills-test` є серед встановлених.
+3. Перевірка, що він працює: написати «перевір мої зміни».
+
+Плагін ставиться локально, у Claude Code на цьому комп'ютері. У веб-версії claude.ai і в хмарних сесіях його не буде.
 
 ## Альтернатива: скрипт (автооновлення вмикається одразу)
 
