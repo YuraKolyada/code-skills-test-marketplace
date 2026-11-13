@@ -63,6 +63,13 @@ else
   exit 1
 fi
 
+if command -v claude >/dev/null 2>&1; then
+  claude plugin install code-skills-test@lineup-tools || true
+else
+  echo "   Не знайдено claude CLI. У вкладці Code виконайте:"
+  echo "   /plugin install code-skills-test --marketplace $REPO"
+fi
+
 echo ""
 echo "✅ Готово! Плагін code-skills-test підключено."
 echo "   Перезапустіть Claude (повністю закрийте й відкрийте апку)."

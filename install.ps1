@@ -32,6 +32,13 @@ Set-Prop $s.enabledPlugins 'code-skills-test@lineup-tools' $true
 # UTF-8 без BOM, щоб Claude Code коректно прочитав файл
 [IO.File]::WriteAllText($path, ($s | ConvertTo-Json -Depth 20), (New-Object Text.UTF8Encoding $false))
 
+if (Get-Command claude -ErrorAction SilentlyContinue) {
+    claude plugin install code-skills-test@lineup-tools
+} else {
+    Write-Host "Не знайдено claude CLI. У вкладці Code виконайте:"
+    Write-Host "/plugin install code-skills-test --marketplace $repo"
+}
+
 Write-Host ''
 Write-Host 'Готово! Плагін code-skills-test підключено.' -ForegroundColor Green
 Write-Host 'Перезапустіть Claude (повністю закрийте й відкрийте апку).'
