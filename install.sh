@@ -40,7 +40,9 @@ function run(argv) {
     text = ObjC.unwrap(\$.NSString.stringWithContentsOfFileEncodingError(path, \$.NSUTF8StringEncoding, null)) || "";
   }
   var out = patch(text, repo);
-  \$(out).writeToFileAtomicallyEncodingError(path, true, \$.NSUTF8StringEncoding, null);
+  var isSaved = \$(out).writeToFileAtomicallyEncodingError(path, true, \$.NSUTF8StringEncoding, null);
+  // Без цієї перевірки скрипт казав «Готово», навіть коли файл не записався.
+  if (!isSaved) { throw new Error("Не вдалося записати " + path); }
   return "ok";
 }
 EOF
