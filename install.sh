@@ -68,8 +68,8 @@ fi
 if command -v claude >/dev/null 2>&1; then
   claude plugin install code-skills-test@lineup-tools || true
 else
-  echo "   Не знайдено claude CLI. У вкладці Code виконайте:"
-  echo "   /plugin install code-skills-test@lineup-tools"
+  echo "   Не знайдено claude CLI. Встановіть плагін в апці:"
+  echo "   Settings → Customize → Plugins → Discover → code-skills-test → Install"
 fi
 
 echo ""

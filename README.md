@@ -24,22 +24,26 @@ You do **not** need to bump a version number: `plugin.json` deliberately has no 
 
 ## Install in the app (once per person)
 
-**Code** tab → in the message box:
+In the Claude desktop app (typing `/plugin …` there only opens the settings window, it does not run the command):
+
+1. **Settings → Customize → Plugins → + Add → Add marketplace → Add from repository**.
+2. Enter `YuraKolyada/code-skills-test-marketplace`.
+3. Open the **Discover** tab, find `code-skills-test` and click **Install**. Adding the marketplace alone does not install the plugin.
+4. Quit the app completely (**Cmd+Q**) and reopen it.
+
+**Turn on auto-update (required, otherwise your changes will not arrive):** in the same Plugins screen, open the `lineup-tools` marketplace and enable auto-update.
+
+In a terminal with the `claude` CLI you can run these instead:
 
 ```
-/plugin marketplace add YuraKolyada/code-skills-test-marketplace
-/plugin install code-skills-test@lineup-tools
+claude plugin marketplace add YuraKolyada/code-skills-test-marketplace
+claude plugin install code-skills-test@lineup-tools
 ```
-
-Choose **Install for you**.
-
-**Turn on auto-update (required, otherwise your changes will not arrive):**
-`/plugin` → **Marketplaces** tab → `lineup-tools` → **Enable auto-update**.
 
 ## I don't see the plugin
 
 1. Quit the app completely (**Cmd+Q**, not just the window) and reopen it.
-2. In the **Code** tab run `/plugin` and check that `code-skills-test` is installed.
+2. Open **Settings → Customize → Plugins → Yours** and check that `code-skills-test` is listed. Search by the plugin name, not by `YuraKolyada`.
 3. To check that it works, write "check my changes".
 
 The plugin is installed locally, in Claude Code on this computer. It will not appear on claude.ai or in cloud sessions.

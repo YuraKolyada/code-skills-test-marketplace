@@ -35,8 +35,8 @@ Set-Prop $s.enabledPlugins 'code-skills-test@lineup-tools' $true
 if (Get-Command claude -ErrorAction SilentlyContinue) {
     claude plugin install code-skills-test@lineup-tools
 } else {
-    Write-Host "Не знайдено claude CLI. У вкладці Code виконайте:"
-    Write-Host "/plugin install code-skills-test@lineup-tools"
+    Write-Host "Не знайдено claude CLI. Встановіть плагін в апці:"
+    Write-Host "Settings -> Customize -> Plugins -> Discover -> code-skills-test -> Install"
 }
 
 Write-Host ''
