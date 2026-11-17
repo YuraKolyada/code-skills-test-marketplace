@@ -66,7 +66,7 @@ Claude will ask for permission: click **Allow**. Then quit and reopen the app co
 
 (You can paste the same command without "Run:" into a regular Terminal / PowerShell.)
 
-The script adds two entries to `~/.claude/settings.json` (the repository with auto-update, and the enabled plugin). It does not touch the other settings and makes a backup before changing anything. If the `claude` CLI is installed, it also installs the plugin. Otherwise it prints the `/plugin install` command to run in the Code tab.
+The script adds two entries to `~/.claude/settings.json` (the repository with auto-update, and the enabled plugin). It does not touch the other settings and makes a backup before changing anything. If the `claude` CLI is installed, it also installs the plugin. Otherwise it tells you to install the plugin from **Settings → Customize → Plugins → Discover**.
 
 ## Alternative: ask Claude to edit the settings
 
